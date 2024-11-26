@@ -21,7 +21,7 @@
 <body class="container my-5">
     <h1 class="text-center mb-4">Träna multiplikationstabellen</h1>
     <div class="row">
-        <div class="col-md-2">
+        <div class="col-md-2 order-2 order-md-1">
             <div id="tracking" class="mb-4">
                 <h2 class="h4">Tal jag kunde</h2>
                 <ul id="known-list" class="list-group mb-3"></ul>
@@ -30,7 +30,7 @@
                 <button id="restart-unknown-btn" class="btn btn-warning btn-lg" onclick="restartWithUnknowns()" style="display:none;">Träna igen på de jag inte kunde</button>
             </div>
         </div>
-        <div class="col-md-8">
+        <div class="col-md-8 order-1 order-md-2">
             <div id="prompt" class="text-center mb-4">
                 <div class="mb-3">
                     <label for="multiplications-count" class="form-label">Antal multiplikationer:</label>
@@ -64,7 +64,7 @@
                 <button class="btn btn-primary btn-lg" onclick="startGame()">Börja öva!</button>
             </div>
         </div>
-        <div class="col-md-2">
+        <div class="col-md-2 order-3 order-md-3">
             <div id="all-multiplications" class="mb-4">
                 <h2 class="h4">Tal att öva på</h2>
                 <ul id="all-list" class="list-group"></ul>
