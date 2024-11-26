@@ -63,6 +63,7 @@
                 </div>
                 <button class="btn btn-primary btn-lg" onclick="startGame()">Börja öva!</button>
             </div>
+            <p id="timer" class="mt-2 text-center fs-4">Tid: 0 sekunder</p>
         </div>
         <div class="col-md-2 order-3 order-md-3">
             <div id="all-multiplications" class="mb-4">
@@ -78,6 +79,8 @@
         let countdownInterval;
         let answerTime = 5;
         let showAnswerTime = 2;
+        let timerInterval;
+        let elapsedTime = 0;
 
         function getRandomInt(min, max) {
             min = Math.ceil(min);
@@ -110,9 +113,23 @@
             });
         }
 
+        function startTimer() {
+            const timerElement = document.getElementById('timer');
+            timerInterval = setInterval(() => {
+                elapsedTime++;
+                timerElement.innerText = `Tid: ${elapsedTime} sekunder`;
+            }, 1000);
+        }
+
+        function stopTimer() {
+            clearInterval(timerInterval);
+        }
+
         function startGame() {
             answerTime = parseInt(document.getElementById('answer-time').value);
             showAnswerTime = parseInt(document.getElementById('show-answer-time').value);
+            elapsedTime = 0;
+            startTimer();
             document.getElementById('prompt').innerHTML = `<p class="fs-2">Vad är <span id="num1"></span> x <span id="num2"></span>?</p>
                                                             <div id="answer-buttons" class="d-flex justify-content-center flex-wrap"></div>
                                                             <div class="progress mt-3">
@@ -185,13 +202,13 @@
         }
 
         function checkAllListEmpty() {
-            console.log(unknownMultiplications)
             const allList = document.getElementById('all-list');
             if (allList.children.length === 0) {
                 if (unknownMultiplications.length > 0) {
                     document.getElementById('prompt').innerHTML = '<button class="btn btn-warning btn-lg" onclick="restartWithUnknowns()">Träna igen på de jag inte kunde</button>';
                 } else {
                     document.getElementById('prompt').innerHTML = '<button class="btn btn-primary btn-lg" onclick="location.reload()">Börja från början</button>';
+                    stopTimer();
                 }
                 return true; // Indicate that the list is empty
             }
@@ -234,7 +251,6 @@
                     unknownMultiplications.push({ num1, num2 });
                     showAnswerAndGenerateNew(num1, num2, num1 * num2, false);
                     removeFromAllList(num1, num2);
-                    console.log('you ran out of time');
                 }
             }, 1000);
         }
