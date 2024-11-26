@@ -203,6 +203,10 @@
             checkAllListEmpty();
         }
 
+        function sleep(ms) {
+            return new Promise(resolve => setTimeout(resolve, ms));
+        }
+
         function checkAllListEmpty() {
             const allList = document.getElementById('all-list');
             if (allList.children.length === 0) {
@@ -267,28 +271,30 @@
         }
 
         function restartWithUnknowns() {
-            const allList = document.getElementById('all-list');
-            allList.innerHTML = '';
-            const unknownList = document.getElementById('unknown-list');
-            const items = unknownList.getElementsByTagName('li');
-            unknownMultiplications = [];
-            for (let item of items) {
-                const [num1, num2] = item.innerText.split(' = ')[0].split(' x ').map(str => parseInt(str));
-                const listItem = document.createElement('li');
-                listItem.className = 'list-group-item';
-                listItem.id = `mul-${num1}-${num2}`;
-                listItem.innerText = `${num1} x ${num2} = ${num1 * num2}`;
-                allList.appendChild(listItem);
-            }
-            document.getElementById('known-list').innerHTML = '';
-            document.getElementById('unknown-list').innerHTML = '';
-            document.getElementById('restart-btn').style.display = 'none';
-            document.getElementById('prompt').innerHTML = `<p class="fs-2">Vad är <span id="num1"></span> x <span id="num2"></span>?</p>
-                                                            <div id="answer-buttons" class="d-flex justify-content-center flex-wrap"></div>
-                                                            <div class="progress mt-3">
-                                                                <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
-                                                            </div>`;
-            generateMultiplication();
+            sleep(1000).then(() => {
+                const allList = document.getElementById('all-list');
+                allList.innerHTML = '';
+                const unknownList = document.getElementById('unknown-list');
+                const items = unknownList.getElementsByTagName('li');
+                unknownMultiplications = [];
+                for (let item of items) {
+                    const [num1, num2] = item.innerText.split(' = ')[0].split(' x ').map(str => parseInt(str));
+                    const listItem = document.createElement('li');
+                    listItem.className = 'list-group-item';
+                    listItem.id = `mul-${num1}-${num2}`;
+                    listItem.innerText = `${num1} x ${num2} = ${num1 * num2}`;
+                    allList.appendChild(listItem);
+                }
+                document.getElementById('known-list').innerHTML = '';
+                document.getElementById('unknown-list').innerHTML = '';
+                document.getElementById('restart-btn').style.display = 'none';
+                document.getElementById('prompt').innerHTML = `<p class="fs-2">Vad är <span id="num1"></span> x <span id="num2"></span>?</p>
+                <div id="answer-buttons" class="d-flex justify-content-center flex-wrap"></div>
+                <div class="progress mt-3">
+                    <div id="progress-bar" class="progress-bar" role="progressbar" style="width: 100%;" aria-valuenow="100" aria-valuemin="0" aria-valuemax="100"></div>
+                    </div>`;
+                    generateMultiplication();
+            });
         }
 
         // Initialize the first set of multiplications
