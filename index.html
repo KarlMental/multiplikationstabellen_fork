@@ -74,6 +74,7 @@
     </div>
     <button id="restart-btn" class="btn btn-primary btn-lg" onclick="restart()" style="display:none;">Restart</button>
     <script>
+        let selectedNumberOfMultiplications;
         let unknownMultiplications = [];
         let allMultiplications = [];
         let countdownInterval;
@@ -91,6 +92,7 @@
         function initializeMultiplications() {
             const count = parseInt(document.getElementById('multiplications-count').value);
             const allMultiplicationsSet = new Set();
+            selectedNumberOfMultiplications = count;
             while (allMultiplicationsSet.size < count) {
                 const num1 = getRandomInt(2, 9);
                 const num2 = getRandomInt(2, 9);
@@ -207,7 +209,10 @@
                 if (unknownMultiplications.length > 0) {
                     document.getElementById('prompt').innerHTML = '<button class="btn btn-warning btn-lg" onclick="restartWithUnknowns()">Träna igen på de jag inte kunde</button>';
                 } else {
-                    document.getElementById('prompt').innerHTML = '<button class="btn btn-primary btn-lg" onclick="location.reload()">Börja från början</button>';
+                    document.getElementById('prompt').innerHTML = `
+                        <p>Grattis! Du har klarat alla ${selectedNumberOfMultiplications} multiplikationer!</p>
+                        <button class="btn btn-primary btn-lg" onclick="location.reload()">Börja från början</button>
+                    `;
                     stopTimer();
                 }
                 return true; // Indicate that the list is empty
